@@ -1,15 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NativeRouter, Link, Route, Switch } from 'react-router-native';
-import { Main, Camera } from './Components';
+import React from 'react'
+import {StyleSheet, Text, View} from 'react-native'
+import {NativeRouter, Link, Route, Switch} from 'react-router-native'
+import {Main, Camera, Photo} from './Components'
 
 export default function App() {
   return (
     <NativeRouter>
       <Route path="/camera" component={Camera} />
+      <Route path="/photo" component={Photo} />
       <Route exact path="/" component={Main} />
     </NativeRouter>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -17,6 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    justifyContent: 'center'
+  }
+})
