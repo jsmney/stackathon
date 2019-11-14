@@ -2,16 +2,7 @@ import React from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import {Link} from 'react-router-native'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignContent: 'center'
-  },
-  header: {
-    fontSize: 35,
-    padding: 40
-  }
-})
+import styles from '../styles'
 
 const Main = () => {
   return (

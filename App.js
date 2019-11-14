@@ -1,23 +1,17 @@
 import React from 'react'
-import {StyleSheet, Text, View} from 'react-native'
-import {NativeRouter, Link, Route, Switch} from 'react-router-native'
-import {Main, Camera, Photo} from './Components'
+import {NativeRouter, Route} from 'react-router-native'
+import {Provider} from 'react-redux'
+import {Main, CameraWindow, Photo} from './Components'
+import store from './store'
 
 export default function App() {
   return (
-    <NativeRouter>
-      <Route path="/camera" component={Camera} />
-      <Route path="/photo" component={Photo} />
-      <Route exact path="/" component={Main} />
-    </NativeRouter>
+    <Provider store={store}>
+      <NativeRouter>
+        <Route path="/camera" component={CameraWindow} />
+        <Route path="/photo" component={Photo} />
+        <Route exact path="/" component={Main} />
+      </NativeRouter>
+    </Provider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})

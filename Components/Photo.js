@@ -5,33 +5,26 @@ import {Link} from 'react-router-native'
 import * as FaceDetector from 'expo-face-detector'
 import styles from '../styles'
 
-const Photo = (captures = []) => {
-  console.log(captures)
+const Photo = props => {
+  console.log('photo', props)
   return (
-    <ScrollView
-      horizontal={true}
-      style={[styles.bottomToolbar, styles.galleryContainer]}
-    >
+    <ScrollView style={styles.gallery}>
       {/* {captures.map(({uri}) => (
         <View style={styles.galleryImageContainer} key={uri}>
           <Image source={{uri}} style={styles.galleryImage} />
         </View>
       ))} */}
 
-      <View>
-        <Text>Photo</Text>
-        <TouchableOpacity
-          style={{
-            flex: 0.1,
-            alignSelf: 'flex-end',
-            alignItems: 'center'
-          }}
-        >
-          <Link to="/">
-            <Text>Home</Text>
-          </Link>
-        </TouchableOpacity>
+      <Text style={styles.header}>Photo</Text>
+      <View style={{flexDirection: 'row'}}>
+        {/* {captures &&
+            captures.map(capture => {
+              return <Image key={capture.uri} source={capture.uri} />
+            })} */}
       </View>
+      <Link to="/">
+        <Text>Home</Text>
+      </Link>
     </ScrollView>
   )
 }

@@ -30,20 +30,9 @@ export default StyleSheet.create({
     borderRadius: 60,
     borderColor: '#FFFFFF'
   },
-  captureBtnActive: {
-    width: 80,
-    height: 80
-  },
-  captureBtnInternal: {
-    width: 76,
-    height: 76,
-    borderWidth: 2,
-    borderRadius: 76,
-    backgroundColor: 'red',
-    borderColor: 'transparent'
-  },
-  galleryContainer: {
-    bottom: 100
+  gallery: {
+    flex: 1,
+    backgroundColor: 'goldenrod'
   },
   galleryImageContainer: {
     width: 75,
@@ -53,5 +42,13 @@ export default StyleSheet.create({
   galleryImage: {
     width: 75,
     height: 75
+  },
+  header: {
+    fontSize: 35,
+    padding: 40
+  },
+  container: {
+    flex: 1,
+    alignContent: 'center'
   }
 })
