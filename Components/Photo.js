@@ -1,4 +1,5 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native'
 import {Link} from 'react-router-native'
 
@@ -6,21 +7,21 @@ import * as FaceDetector from 'expo-face-detector'
 import styles from '../styles'
 
 const Photo = props => {
-  console.log('photo', props)
+  const captures = useSelector(state => state.captures)
   return (
     <ScrollView style={styles.gallery}>
-      {/* {captures.map(({uri}) => (
-        <View style={styles.galleryImageContainer} key={uri}>
-          <Image source={{uri}} style={styles.galleryImage} />
-        </View>
-      ))} */}
-
       <Text style={styles.header}>Photo</Text>
-      <View style={{flexDirection: 'row'}}>
-        {/* {captures &&
-            captures.map(capture => {
-              return <Image key={capture.uri} source={capture.uri} />
-            })} */}
+      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        {captures &&
+          captures.map(capture => {
+            return (
+              <Image
+                key={capture.uri}
+                style={{borderRadius: 10, height: 200, width: 200, margin: 10}}
+                source={{uri: capture.uri}}
+              />
+            )
+          })}
       </View>
       <Link to="/">
         <Text>Home</Text>

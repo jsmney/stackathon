@@ -25,6 +25,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CAPTURE:
+      console.log('ADD CAP', state.captures)
       return {...state, captures: [...state.captures, action.capture]}
     case CLEAR_CAPTURES:
       return {...state, captures: []}

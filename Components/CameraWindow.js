@@ -12,20 +12,21 @@ const CameraWindow = props => {
   const dispatch = useDispatch()
 
   //local state
-  const [hasCameraPermission, setCameraPermission] = useState(null)
+  const [hasCameraPermission, setCameraPermission] = useState(true)
   const [type, setType] = useState(Camera.Constants.Type.back)
   let camera = null
   //global state
   const captures = useSelector(state => state.captures)
 
-  useEffect(async () => {
-    cameraPermissionRequest()
-  }, []) //componentDidMount
+  // useEffect(async () => {
+  //   cameraPermissionRequest()
+  // }, []) //componentDidMount
 
-  const cameraPermissionRequest = async () => {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA)
-    setCameraPermission(status === 'granted')
-  }
+  // const cameraPermissionRequest = async () => {
+  //   const {status} = await Permissions.askAsync(Permissions.CAMERA)
+  //   setCameraPermission(status === 'granted')
+  //   return 0
+  // }
 
   const handleCapture = async () => {
     console.log('cap', props)
@@ -104,7 +105,6 @@ const CameraWindow = props => {
                 />
               ))}
             </View>
-            {/* <Photo captures={captures} /> */}
           </>
         )}
         <View
