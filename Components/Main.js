@@ -1,41 +1,50 @@
 import React from 'react'
-import {StyleSheet, Text, View} from 'react-native'
-import {Link} from 'react-router-native'
+import {View} from 'react-native'
+import {Container, Header, Content, Button, Text} from 'native-base'
 
 import styles from '../styles'
 
-const Main = () => {
+const Main = props => {
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'powderblue',
-          alignItems: 'center'
-        }}
-      >
-        <Text style={styles.header}>Welcome</Text>
-      </View>
-      <View style={{flex: 1, backgroundColor: 'skyblue', alignItems: 'center'}}>
-        <Link to="/camera">
-          <Text style={styles.header}>Camera</Text>
-        </Link>
-      </View>
-      <View
-        style={{flex: 1, backgroundColor: 'steelblue', alignItems: 'center'}}
-      >
-        <Link to="/Photo">
-          <Text style={styles.header}>Photo</Text>
-        </Link>
-      </View>
-      <View
-        style={{flex: 1, backgroundColor: 'slateblue', alignItems: 'center'}}
-      >
-        <Link to="/">
-          <Text style={styles.header}>Home (here!)</Text>
-        </Link>
-      </View>
-    </View>
+    <Container>
+      <Header>
+        <Text>WELCOME</Text>
+      </Header>
+      <Content>
+        <Button success>
+          <Text> Light </Text>
+        </Button>
+      </Content>
+    </Container>
+
+    // <View style={styles.container}>
+    //   <View
+    //     style={{flex: 1, backgroundColor: 'lightblue', alignItems: 'center'}}
+    //   >
+    //     <Text style={styles.header}>WELCOME</Text>
+    //   </View>
+    //   <View style={{flex: 3, backgroundColor: 'skyblue', alignItems: 'center'}}>
+    //     <View style={styles.buttonContain}>
+    //       <Button
+    //         style={styles.button}
+    //         onPress={() => props.history.push('/camera')}
+    //         title="Camera"
+    //       />
+    //     </View>
+    //     <View style={styles.buttonContain}>
+    //       <Button
+    //         style={styles.button}
+    //         onPress={() => props.history.push('/photo')}
+    //         title="Photo"
+    //       />
+    //     </View>
+    //   </View>
+    //   <View
+    //     style={{flex: 1, backgroundColor: 'lightblue', alignItems: 'center'}}
+    //   >
+    //     <Text style={styles.header}>Hello... ahhhh</Text>
+    //   </View>
+    // </View>
   )
 }
 export default Main

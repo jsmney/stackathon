@@ -45,10 +45,23 @@ export default StyleSheet.create({
   },
   header: {
     fontSize: 35,
-    padding: 40
+    padding: 40,
+    fontFamily: 'Helvetica Neue',
+    fontWeight: '200',
+    letterSpacing: 8
   },
   container: {
     flex: 1,
     alignContent: 'center'
+    // alignItems: 'center'
+  },
+  buttonContain: {
+    margin: 20,
+    backgroundColor: 'steelblue',
+    borderRadius: 25,
+    fontSize: 25,
+    padding: 10,
+    width: '80%',
+    color: 'white'
   }
 })
