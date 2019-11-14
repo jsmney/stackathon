@@ -1,11 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NativeRouter, Link, Route, Switch } from 'react-router-native';
+import { Main, Camera } from './Components';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <NativeRouter>
+      <Route path="/camera" component={Camera} />
+      <Route exact path="/" component={Main} />
+    </NativeRouter>
   );
 }
 
