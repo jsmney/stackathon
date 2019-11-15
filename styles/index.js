@@ -39,16 +39,17 @@ export default StyleSheet.create({
     height: 75,
     marginRight: 5
   },
-  galleryImage: {
-    width: 75,
-    height: 75
+  headerContainer: {
+    height: 150,
+    backgroundColor: 'lightblue'
   },
   header: {
     fontSize: 35,
     padding: 40,
     fontFamily: 'Helvetica Neue',
     fontWeight: '200',
-    letterSpacing: 8
+    letterSpacing: 8,
+    margin: 10
   },
   container: {
     flex: 1,
@@ -63,5 +64,8 @@ export default StyleSheet.create({
     padding: 10,
     width: '80%',
     color: 'white'
+  },
+  button: {
+    margin: 20
   }
 })

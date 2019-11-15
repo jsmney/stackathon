@@ -7,12 +7,23 @@ import styles from '../styles'
 const Main = props => {
   return (
     <Container>
-      <Header>
-        <Text>WELCOME</Text>
+      <Header style={styles.headerContainer}>
+        <Text style={styles.header}>WELCOME</Text>
       </Header>
       <Content>
-        <Button success>
-          <Text> Light </Text>
+        <Button
+          dark
+          style={styles.button}
+          onPress={() => props.history.push('/camera')}
+        >
+          <Text> Camera </Text>
+        </Button>
+        <Button
+          success
+          style={styles.button}
+          onPress={() => props.history.push('/photo')}
+        >
+          <Text> Gallery </Text>
         </Button>
       </Content>
     </Container>
