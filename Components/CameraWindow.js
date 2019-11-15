@@ -8,6 +8,7 @@ import {addCapture} from '../store'
 import styles from '../styles'
 import Photo from './Photo'
 
+// CameraRoll.saveToCameraRoll(tag, [type]);
 const CameraWindow = props => {
   const dispatch = useDispatch()
 
