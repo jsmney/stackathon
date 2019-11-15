@@ -1,6 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {Text, View, TouchableOpacity, Image} from 'react-native'
+import {View, TouchableOpacity, Image} from 'react-native'
+import {
+  Container,
+  Header,
+  Content,
+  Button,
+  Text,
+  Footer,
+  FooterTab,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Title
+} from 'native-base'
 import * as Permissions from 'expo-permissions'
 import {Camera} from 'expo-camera'
 import {Link} from 'react-router-native'
@@ -14,7 +28,10 @@ const CameraWindow = props => {
 
   //local state
   const [hasCameraPermission, setCameraPermission] = useState(true)
+  //camera flip state
   const [type, setType] = useState(Camera.Constants.Type.back)
+  //camra flash
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off)
   let camera = null
   //global state
   const captures = useSelector(state => state.captures)
@@ -44,26 +61,29 @@ const CameraWindow = props => {
   } else {
     return (
       <View style={{flex: 1}}>
-        <Camera
-          style={{flex: 1}}
-          type={type}
-          ref={ref => {
-            camera = ref
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'transparent',
-              flexDirection: 'row'
-            }}
-          >
+        <Header transparent>
+          <Left>
             <TouchableOpacity
-              style={{
-                flex: 0.1,
-                alignSelf: 'flex-end',
-                alignItems: 'center'
+              onPress={() => {
+                setFlash(
+                  flash === Camera.Constants.FlashMode.off
+                    ? Camera.Constants.FlashMode.on
+                    : Camera.Constants.FlashMode.off
+                )
               }}
+            >
+              {flash ? (
+                <Icon ios="ios-flash" android="md-flash" />
+              ) : (
+                <Icon ios="ios-flash-off" android="md-flash-off" />
+              )}
+            </TouchableOpacity>
+          </Left>
+          <Body>
+            <Title>Camera</Title>
+          </Body>
+          <Right>
+            <TouchableOpacity
               onPress={() => {
                 setType(
                   type === Camera.Constants.Type.back
@@ -72,54 +92,51 @@ const CameraWindow = props => {
                 )
               }}
             >
-              <Text style={{fontSize: 18, marginBottom: 10, color: 'white'}}>
-                Flip
-              </Text>
+              <Icon ios="ios-swap" android="md-sync" />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flex: 0.1,
-                alignSelf: 'flex-end',
-                alignItems: 'center'
-              }}
-              onPress={handleCapture}
-            >
-              <Text style={{fontSize: 18, marginBottom: 10, color: 'white'}}>
-                {' '}
-                Click{' '}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </Right>
+        </Header>
+        <Camera
+          style={{flex: 1}}
+          type={type}
+          ref={ref => {
+            camera = ref
+          }}
+          flashMode={flash}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'transparent',
+              flexDirection: 'row'
+            }}
+          ></View>
         </Camera>
-        {captures.length > 0 && (
-          <>
-            <Text>
-              A photo! {captures[0].uri} {captures[0].width}{' '}
-              {captures[0].height} {console.log(Array.isArray(captures))}
-            </Text>
-            <View style={{flexDirection: 'row'}}>
-              {captures.map(capture => (
-                <Image
-                  key={capture.uri}
-                  style={{width: 50, height: 50}}
-                  source={{uri: capture.uri}}
-                />
-              ))}
-            </View>
-          </>
-        )}
+
         <View
           style={{
-            height: 100,
+            height: 60,
             padding: 15,
-            backgroundColor: 'pink'
+            backgroundColor: 'transparent'
           }}
         >
-          <Link to="/">
-            <Text>Home</Text>
-          </Link>
-          <Text>This is some stuff {captures.length + 'hi'}</Text>
+          {captures.length > 0 && (
+            <Text>Success! {captures.length} photos taken</Text>
+          )}
         </View>
+        <Footer>
+          <FooterTab>
+            <Button onPress={() => props.history.push('/')}>
+              <Icon ios="ios-home" android="md-home" />
+            </Button>
+            <Button onPress={handleCapture}>
+              <Icon name="camera" />
+            </Button>
+            <Button onPress={() => props.history.push('/photo')}>
+              <Icon ios="ios-images" android="md-photos" />
+            </Button>
+          </FooterTab>
+        </Footer>
       </View>
     )
   }

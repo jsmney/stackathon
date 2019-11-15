@@ -97,7 +97,7 @@ const Photo = props => {
       detectLandmarks: FaceDetector.Constants.Landmarks.all
     }
     const detected = await FaceDetector.detectFacesAsync(imageUri, options)
-    console.log('d', detected.faces.length, detected.faces[0])
+    // console.log('detected faces', detected.faces.length, detected.faces[0])
 
     detected.faces.length && setFace(detected.faces[0])
     return detected
@@ -148,7 +148,6 @@ const Photo = props => {
             <View
               ref={ref => {
                 canvas = ref
-                console.log('can', canvas)
               }}
             >
               <Image
@@ -241,12 +240,6 @@ const Photo = props => {
                   uri => CameraRoll.saveToCameraRoll(uri),
                   error => console.error('oops', error)
                 )
-
-                // console.log(canvas)
-                // const flatCanvas = await canvas.viewShot.capture()
-                // console.log('flat', flatCanvas)
-                // const maybe = await CameraRoll.saveToCameraRoll(flatCanvas)
-                // console.log('maybe', maybe)
                 setHasSaved(true)
               }}
               style={styles.button}
