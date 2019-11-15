@@ -2,17 +2,20 @@ import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 
 //layout elements
+import {Container, Header, Content, Button, Text} from 'native-base'
 import {
   View,
-  Text,
-  Button,
   TouchableOpacity,
   TouchableHighlight,
   Image,
   ScrollView,
   Modal,
-  Alert
+  Alert,
+  CameraRoll
 } from 'react-native'
+
+// possibly for saving canvas
+import {takeSnapshotAsync} from 'expo'
 
 //link for router
 import {Link} from 'react-router-native'
@@ -47,12 +50,17 @@ const Photo = props => {
     bottomMouthPosition: {x: 0, y: 0},
     leftMouthPosition: {x: 0, y: 0},
     rightMouthPosition: {x: 0, y: 0},
-    noseBasePosition: {x: 0, y: 0}
+    noseBasePosition: {x: 0, y: 0},
+    bounds: {origin: {x: 0, y: 0}, size: {x: 0, y: 0}}
   })
+  const [hasSaved, setHasSaved] = useState(false)
   const [activeImage, setActiveImage] = useState({
     uri:
       'https://66.media.tumblr.com/13bd026170835d5ecf50175dfbbb5b5a/f4d2966ad493a972-62/s1280x1920/ef8260ba55a047239aad85bf52517abf5b6fbc2d.jpg'
   })
+
+  //for saving image with stuff on it
+  let canvas = null
 
   const _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -97,7 +105,9 @@ const Photo = props => {
 
   return (
     <ScrollView style={styles.gallery}>
-      <Text style={styles.header}>Photo</Text>
+      <Header style={styles.headerContainer}>
+        <Text style={styles.header}>Photo</Text>
+      </Header>
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         {captures &&
           captures.map(capture => {
@@ -135,100 +145,142 @@ const Photo = props => {
           }}
         >
           <View style={{marginTop: 22}}>
-            <View>
-              <TouchableHighlight
-                onPress={() => {
-                  setFace({
-                    leftEarPosition: {x: 0, y: 0},
-                    rightEarPosition: {x: 0, y: 0},
-                    leftEyePosition: {x: 0, y: 0},
-                    rightEyePosition: {x: 0, y: 0},
-                    leftCheekPosition: {x: 0, y: 0},
-                    rightCheekPosition: {x: 0, y: 0},
-                    bottomMouthPosition: {x: 0, y: 0},
-                    leftMouthPosition: {x: 0, y: 0},
-                    rightMouthPosition: {x: 0, y: 0},
-                    noseBasePosition: {x: 0, y: 0}
-                  })
-
-                  setModalVisible(!modalVisible)
-                }}
-              >
-                <Text>Close</Text>
-              </TouchableHighlight>
+            <View
+              ref={ref => {
+                canvas = ref
+              }}
+            >
               <Image
                 style={{
                   borderRadius: 10,
-                  height: 600,
+                  height: 550,
                   width: 400,
                   margin: 10,
                   alignSelf: 'center',
-                  zIndex: 1
+                  zIndex: -1
                 }}
                 source={{uri: activeImage.uri}}
               />
-              <View
+              <Image
                 style={{
-                  borderRadius: 10,
-                  width: 20,
-                  height: 20,
-                  backgroundColor: 'red',
+                  width: 60,
+                  height: 60,
                   position: 'absolute',
-                  top: (face.noseBasePosition.y / activeImage.height) * 600,
-                  left: (face.noseBasePosition.x / activeImage.width) * 400,
+                  top:
+                    (face.noseBasePosition.y / activeImage.height) * 550 - 30,
+                  left:
+                    (face.noseBasePosition.x / activeImage.width) * 400 - 30,
+                  transform: [{rotate: `${face.rollAngle}deg` || '0deg'}],
                   zIndex: 100
                 }}
+                source={require('../assets/nose.png')}
               />
-              <View
+              <Image
                 style={{
-                  borderRadius: 10,
-                  width: 20,
-                  height: 20,
-                  backgroundColor: 'green',
+                  width: 80,
+                  height: 90,
                   position: 'absolute',
-                  top: (face.rightEyePosition.y / activeImage.height) * 600,
-                  left: (face.rightEyePosition.x / activeImage.width) * 400,
+                  top:
+                    (face.rightEyePosition.y / activeImage.height) * 550 - 50,
+                  left:
+                    (face.rightEyePosition.x / activeImage.width) * 400 - 20,
+                  transform: [{rotate: `${face.rollAngle * -1}deg` || '0deg'}],
                   zIndex: 98
                 }}
+                source={require('../assets/righteyeb.png')}
               />
-              <View
+              <Image
                 style={{
-                  borderRadius: 10,
-                  width: 20,
-                  height: 20,
-                  backgroundColor: 'blue',
+                  width: 80,
+                  height: 90,
                   position: 'absolute',
-                  top: (face.leftEyePosition.y / activeImage.height) * 600,
-                  left: (face.leftEyePosition.x / activeImage.width) * 400,
+                  top: (face.leftEyePosition.y / activeImage.height) * 550 - 50,
+                  left: (face.leftEyePosition.x / activeImage.width) * 400 - 60,
+                  transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
                   zIndex: 90
                 }}
+                source={require('../assets/lefteyeb.png')}
               />
-              <View
+              <Image
                 style={{
-                  borderRadius: 10,
-                  width: 20,
-                  height: 20,
-                  backgroundColor: 'yellow',
+                  width: 120,
+                  height: 60,
                   position: 'absolute',
-                  top: (face.bottomMouthPosition.y / activeImage.height) * 600,
-                  left: (face.bottomMouthPosition.x / activeImage.width) * 400,
+                  top:
+                    (face.bottomMouthPosition.y / activeImage.height) * 550 -
+                    50,
+                  left:
+                    (face.bottomMouthPosition.x / activeImage.width) * 400 - 60,
+                  transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
                   zIndex: 99
                 }}
+                source={require('../assets/mouth.png')}
               />
-              <Text>
-                {activeImage.height} {activeImage.width}
-              </Text>
+              {/* <View
+                style={{
+                  borderRadius: 10,
+                  width:
+                    (face.bounds.size.width / activeImage.width) * 550 || 10,
+                  height:
+                    (face.bounds.size.height / activeImage.height) * 400 || 10,
+                  position: 'absolute',
+                  top: (face.bounds.origin.y / activeImage.height) * 550,
+                  left: (face.bounds.origin.x / activeImage.width) * 400,
+                  backgroundColor: 'white',
+                  opacity: 0.4
+                }}
+              /> */}
             </View>
+            <TouchableHighlight
+              onPress={async () => {
+                const flatCanvas = await takeSnapshotAsync(canvas, {
+                  format: 'jpg',
+                  quality: 1,
+                  height: 550,
+                  width: 400
+                })
+                console.log('flat', flatCanvas)
+                const maybe = await CameraRoll.saveImageWithTag(flatCanvas.uri)
+                console.log('maybe', maybe)
+                setHasSaved(true)
+              }}
+              style={styles.button}
+            >
+              <Text>Save Photo (modified) {hasSaved && 'success!'}</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={async () => {
+                await CameraRoll.saveToCameraRoll(activeImage.uri)
+                setHasSaved(true)
+              }}
+              style={styles.button}
+            >
+              <Text>Save Photo (original) {hasSaved && 'success!'}</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => {
+                setFace({
+                  leftEarPosition: {x: 0, y: 0},
+                  rightEarPosition: {x: 0, y: 0},
+                  leftEyePosition: {x: 0, y: 0},
+                  rightEyePosition: {x: 0, y: 0},
+                  leftCheekPosition: {x: 0, y: 0},
+                  rightCheekPosition: {x: 0, y: 0},
+                  bottomMouthPosition: {x: 0, y: 0},
+                  leftMouthPosition: {x: 0, y: 0},
+                  rightMouthPosition: {x: 0, y: 0},
+                  noseBasePosition: {x: 0, y: 0},
+                  bounds: {origin: {x: 0, y: 0}, size: {x: 0, y: 0}}
+                })
+                setHasSaved(false)
+                setModalVisible(!modalVisible)
+              }}
+              style={styles.button}
+            >
+              <Text>Close</Text>
+            </TouchableHighlight>
           </View>
         </Modal>
-
-        <TouchableHighlight
-          onPress={() => {
-            setModalVisible(true)
-          }}
-        >
-          <Text>Show Modal</Text>
-        </TouchableHighlight>
       </View>
       <Link to="/">
         <Text>Home</Text>

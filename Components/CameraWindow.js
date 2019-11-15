@@ -30,7 +30,7 @@ const CameraWindow = props => {
   // }
 
   const handleCapture = async () => {
-    console.log('cap', props)
+    // console.log('cap', props)
     const photoData = await camera.takePictureAsync()
     dispatch(addCapture(photoData))
 

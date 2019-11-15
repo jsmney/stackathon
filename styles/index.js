@@ -66,6 +66,7 @@ export default StyleSheet.create({
     color: 'white'
   },
   button: {
-    margin: 20
+    margin: 20,
+    zIndex: 10000
   }
 })
