@@ -15,7 +15,8 @@ import {
 } from 'react-native'
 
 // possibly for saving canvas
-import {takeSnapshotAsync} from 'expo'
+// import {takeSnapshotAsync} from 'expo'
+import ViewShot, {captureRef} from 'react-native-view-shot'
 
 //link for router
 import {Link} from 'react-router-native'
@@ -55,8 +56,7 @@ const Photo = props => {
   })
   const [hasSaved, setHasSaved] = useState(false)
   const [activeImage, setActiveImage] = useState({
-    uri:
-      'https://66.media.tumblr.com/13bd026170835d5ecf50175dfbbb5b5a/f4d2966ad493a972-62/s1280x1920/ef8260ba55a047239aad85bf52517abf5b6fbc2d.jpg'
+    uri: ''
   })
 
   //for saving image with stuff on it
@@ -148,6 +148,7 @@ const Photo = props => {
             <View
               ref={ref => {
                 canvas = ref
+                console.log('can', canvas)
               }}
             >
               <Image
@@ -233,15 +234,19 @@ const Photo = props => {
             </View>
             <TouchableHighlight
               onPress={async () => {
-                const flatCanvas = await takeSnapshotAsync(canvas, {
+                captureRef(canvas, {
                   format: 'jpg',
-                  quality: 1,
-                  height: 550,
-                  width: 400
-                })
-                console.log('flat', flatCanvas)
-                const maybe = await CameraRoll.saveImageWithTag(flatCanvas.uri)
-                console.log('maybe', maybe)
+                  quality: 0.9
+                }).then(
+                  uri => CameraRoll.saveToCameraRoll(uri),
+                  error => console.error('oops', error)
+                )
+
+                // console.log(canvas)
+                // const flatCanvas = await canvas.viewShot.capture()
+                // console.log('flat', flatCanvas)
+                // const maybe = await CameraRoll.saveToCameraRoll(flatCanvas)
+                // console.log('maybe', maybe)
                 setHasSaved(true)
               }}
               style={styles.button}
@@ -290,71 +295,3 @@ const Photo = props => {
 }
 
 export default Photo
-
-// onFacesDetected={this.handleFacesDetected}
-// faceDetectorSettings={{
-//   mode: FaceDetector.Constants.Mode.fast,
-//   detectLandmarks: FaceDetector.Constants.Landmarks.all,
-//   runClassifications: FaceDetector.Constants.Classifications.none,
-//   minDetectionInterval: 100,
-//   tracking: true,
-// }}
-{
-  /* <View
-              style={{
-                borderRadius: 10,
-                width: 20,
-                height: 20,
-                backgroundColor: 'red',
-                position: 'absolute',
-                top: { noseX },
-                left: { noseY },
-              }}
-            ></View> */
-}
-
-// handleFacesDetected(evt) {
-//   // evt {
-//   //   type,
-//   //   faces: [{facesbounds: {x, y}: {x, y},
-//   //     leftEarPosition: {x, y},
-//   //     leftEyePosition: {x, y},
-//   //     yawAngle: {x, y},
-//   //     rightEyePosition: {x, y},
-//   //     leftbottomM {x, y},
-//   //     rightEarPosition: {x, y},
-//   //     leftCheekPosition: {x, y},
-//   //     faceID: {x, y},
-//   //     rightCheekPosition: {x, y},
-//   //     rollAngle: {x, y},
-//   //     rightMouthPosition: {x, y},
-//   //     bottomMouthPosition: {x, y},
-//   //     noseBasePosition: {x, y}}],
-//   //   target
-//   // }
-//   !this.state.seeFace &&
-//     this.setState({
-//       seeFace: true,
-//     });
-//   evt.faces.noseBasePosition &&
-//     this.setState({
-//       noseX: Math.floor(evt.faces[0].noseBasePosition.x),
-//       noseY: Math.floor(evt.faces[0].noseBasePosition.y),
-//     });
-//   // alert('type' + evt.type);
-//   // facesbounds;
-//   // leftEarPosition;
-//   // leftEyePosition;
-//   // yawAngle;
-//   // rightEyePosition;
-//   // leftMouthPosition;
-//   // rightEarPosition;
-//   // leftCheekPosition;
-//   // faceID;
-//   // rightCheekPosition;
-//   // rollAngle;
-//   // rightMouthPosition;
-//   // bottomMouthPosition;
-//   // noseBasePosition;
-//   // alert('target' + evt.target);
-// }
