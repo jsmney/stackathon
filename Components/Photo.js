@@ -165,7 +165,7 @@ const Photo = props => {
                   backgroundColor: 'red',
                   position: 'absolute',
                   top: (noseY / activeImage.height) * 600,
-                  left: noseX,
+                  left: (noseX / activeImage.width) * 400,
                   zIndex: 100
                 }}
               />
@@ -176,8 +176,8 @@ const Photo = props => {
                   height: 20,
                   backgroundColor: 'green',
                   position: 'absolute',
-                  top: face.rightEyePosition.y,
-                  left: face.rightEyePosition.x,
+                  top: (face.rightEyePosition.y / activeImage.height) * 600,
+                  left: (face.rightEyePosition.x / activeImage.width) * 400,
                   zIndex: 98
                 }}
               />
@@ -188,8 +188,8 @@ const Photo = props => {
                   height: 20,
                   backgroundColor: 'blue',
                   position: 'absolute',
-                  top: face.leftEyePosition.y,
-                  left: face.leftEyePosition.x,
+                  top: (face.leftEyePosition.y / activeImage.height) * 600,
+                  left: (face.leftEyePosition.x / activeImage.width) * 400,
                   zIndex: 90
                 }}
               />
@@ -200,8 +200,8 @@ const Photo = props => {
                   height: 20,
                   backgroundColor: 'yellow',
                   position: 'absolute',
-                  top: face.bottomMouthPosition.y,
-                  left: face.bottomMouthPosition.x,
+                  top: (face.bottomMouthPosition.y / activeImage.height) * 600,
+                  left: (face.bottomMouthPosition.x / activeImage.width) * 400,
                   zIndex: 99
                 }}
               />
