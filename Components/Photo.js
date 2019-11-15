@@ -2,11 +2,19 @@ import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 
 //layout elements
-import {Container, Header, Content, Button, Text} from 'native-base'
+import {
+  Container,
+  Header,
+  Content,
+  Button,
+  Text,
+  Footer,
+  FooterTab,
+  Icon
+} from 'native-base'
 import {
   View,
   TouchableOpacity,
-  TouchableHighlight,
   Image,
   ScrollView,
   Modal,
@@ -14,12 +22,8 @@ import {
   CameraRoll
 } from 'react-native'
 
-// possibly for saving canvas
-// import {takeSnapshotAsync} from 'expo'
-import ViewShot, {captureRef} from 'react-native-view-shot'
-
-//link for router
-import {Link} from 'react-router-native'
+// for saving canvas
+import {captureRef} from 'react-native-view-shot'
 
 //image picker
 import * as ImagePicker from 'expo-image-picker'
@@ -39,9 +43,7 @@ import styles from '../styles'
 const Photo = props => {
   const dispatch = useDispatch()
 
-  const captures = useSelector(state => state.captures)
-  const [modalVisible, setModalVisible] = useState(false)
-  const [face, setFace] = useState({
+  const initFaceState = {
     leftEarPosition: {x: 0, y: 0},
     rightEarPosition: {x: 0, y: 0},
     leftEyePosition: {x: 0, y: 0},
@@ -53,7 +55,10 @@ const Photo = props => {
     rightMouthPosition: {x: 0, y: 0},
     noseBasePosition: {x: 0, y: 0},
     bounds: {origin: {x: 0, y: 0}, size: {x: 0, y: 0}}
-  })
+  }
+  const captures = useSelector(state => state.captures)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [face, setFace] = useState(initFaceState)
   const [hasSaved, setHasSaved] = useState(false)
   const [activeImage, setActiveImage] = useState({
     uri: ''
@@ -106,9 +111,17 @@ const Photo = props => {
   return (
     <ScrollView style={styles.gallery}>
       <Header style={styles.headerContainer}>
-        <Text style={styles.header}>Photo</Text>
+        <Text style={styles.header}>Photos</Text>
       </Header>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignContent: 'center',
+          justifyContent: 'space-around',
+          alignItems: 'center'
+        }}
+      >
         {captures &&
           captures.map(capture => {
             return (
@@ -123,8 +136,8 @@ const Photo = props => {
                 <Image
                   style={{
                     borderRadius: 10,
-                    height: 200,
-                    width: 200,
+                    height: 110,
+                    width: 110,
                     margin: 10
                   }}
                   source={{uri: capture.uri}}
@@ -133,17 +146,12 @@ const Photo = props => {
             )
           })}
       </View>
-      <Button title="Add an image from camera roll" onPress={_pickImage} />
+      <Button onPress={_pickImage}>
+        <Text>Add from camera roll</Text>
+      </Button>
 
       <View style={{marginTop: 22}}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.')
-          }}
-        >
+        <Modal animationType="slide" transparent={false} visible={modalVisible}>
           <View style={{marginTop: 22}}>
             <View
               ref={ref => {
@@ -230,59 +238,79 @@ const Photo = props => {
                   opacity: 0.4
                 }}
               /> */}
+              <Text>{hasSaved && 'success!'}</Text>
             </View>
-            <TouchableHighlight
-              onPress={async () => {
-                captureRef(canvas, {
-                  format: 'jpg',
-                  quality: 0.9
-                }).then(
-                  uri => CameraRoll.saveToCameraRoll(uri),
-                  error => console.error('oops', error)
-                )
-                setHasSaved(true)
-              }}
-              style={styles.button}
-            >
-              <Text>Save Photo (modified) {hasSaved && 'success!'}</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              onPress={async () => {
-                await CameraRoll.saveToCameraRoll(activeImage.uri)
-                setHasSaved(true)
-              }}
-              style={styles.button}
-            >
-              <Text>Save Photo (original) {hasSaved && 'success!'}</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              onPress={() => {
-                setFace({
-                  leftEarPosition: {x: 0, y: 0},
-                  rightEarPosition: {x: 0, y: 0},
-                  leftEyePosition: {x: 0, y: 0},
-                  rightEyePosition: {x: 0, y: 0},
-                  leftCheekPosition: {x: 0, y: 0},
-                  rightCheekPosition: {x: 0, y: 0},
-                  bottomMouthPosition: {x: 0, y: 0},
-                  leftMouthPosition: {x: 0, y: 0},
-                  rightMouthPosition: {x: 0, y: 0},
-                  noseBasePosition: {x: 0, y: 0},
-                  bounds: {origin: {x: 0, y: 0}, size: {x: 0, y: 0}}
-                })
-                setHasSaved(false)
-                setModalVisible(!modalVisible)
-              }}
-              style={styles.button}
-            >
-              <Text>Close</Text>
-            </TouchableHighlight>
+            <Footer>
+              <FooterTab>
+                <Button onPress={console.log('shu')}>
+                  <Icon type="Entypo" name="shuffle" />
+                </Button>
+                <Button onPress={console.log('shu')}>
+                  <Icon type="Entypo" name="heart" />
+                </Button>
+                <Button onPress={console.log('shu')}>
+                  <Icon type="Entypo" name="emoji-flirt" />
+                </Button>
+                <Button onPress={console.log('shu')}>
+                  <Icon type="Entypo" name="hand" />
+                </Button>
+                <Button onPress={console.log('shu')}>
+                  <Icon type="Entypo" name="eye" />
+                </Button>
+                <Button onPress={console.log('shu')}>
+                  <Icon type="Entypo" name="pencil" />
+                </Button>
+              </FooterTab>
+            </Footer>
+            <Footer>
+              <FooterTab>
+                <Button
+                  onPress={() => {
+                    setFace(initFaceState)
+                    setHasSaved(false)
+                    setModalVisible(!modalVisible)
+                  }}
+                >
+                  <Icon ios="ios-close" android="md-close" />
+                  <Text>Close</Text>
+                </Button>
+                <Button
+                  onPress={async () => {
+                    captureRef(canvas, {
+                      format: 'jpg',
+                      quality: 0.9
+                    }).then(
+                      uri => CameraRoll.saveToCameraRoll(uri),
+                      error => console.error('oops', error)
+                    )
+                    setHasSaved(true)
+                  }}
+                >
+                  <Icon ios="ios-save" android="md-save" />
+                  <Text>Save Modified</Text>
+                </Button>
+                <Button
+                  onPress={async () => {
+                    await CameraRoll.saveToCameraRoll(activeImage.uri)
+                    setHasSaved(true)
+                  }}
+                >
+                  <Icon ios="ios-save" android="md-save" />
+                  <Text>Save Original</Text>
+                </Button>
+              </FooterTab>
+            </Footer>
           </View>
         </Modal>
       </View>
-      <Link to="/">
-        <Text>Home</Text>
-      </Link>
+      <Footer>
+        <FooterTab>
+          <Button onPress={() => props.history.push('/')}>
+            <Icon ios="ios-home" android="md-home" />
+            <Text>Home</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
     </ScrollView>
   )
 }

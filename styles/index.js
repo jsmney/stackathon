@@ -31,13 +31,7 @@ export default StyleSheet.create({
     borderColor: '#FFFFFF'
   },
   gallery: {
-    flex: 1,
-    backgroundColor: 'goldenrod'
-  },
-  galleryImageContainer: {
-    width: 75,
-    height: 75,
-    marginRight: 5
+    flex: 1
   },
   headerContainer: {
     height: 150,
@@ -53,7 +47,8 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignContent: 'center'
+    alignContent: 'center',
+    backgroundColor: 'lightblue'
     // alignItems: 'center'
   },
   buttonContain: {
@@ -66,7 +61,7 @@ export default StyleSheet.create({
     color: 'white'
   },
   button: {
-    margin: 20,
+    margin: 10,
     zIndex: 10000
   }
 })

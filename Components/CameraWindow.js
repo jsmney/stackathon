@@ -121,7 +121,7 @@ const CameraWindow = props => {
           }}
         >
           {captures.length > 0 && (
-            <Text>Success! {captures.length} photos taken</Text>
+            <Text>Success! {captures.length} photo(s) taken</Text>
           )}
         </View>
         <Footer>

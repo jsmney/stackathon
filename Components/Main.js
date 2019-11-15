@@ -10,7 +10,7 @@ const Main = props => {
       <Header style={styles.headerContainer}>
         <Text style={styles.header}>WELCOME</Text>
       </Header>
-      <Content>
+      <Content transparent styles={styles.container}>
         <Button
           dark
           style={styles.button}
@@ -19,7 +19,7 @@ const Main = props => {
           <Text> Camera </Text>
         </Button>
         <Button
-          success
+          dark
           style={styles.button}
           onPress={() => props.history.push('/photo')}
         >
