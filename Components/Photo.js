@@ -49,8 +49,6 @@ const Photo = props => {
     rightMouthPosition: {x: 0, y: 0},
     noseBasePosition: {x: 0, y: 0}
   })
-  const [noseX, setNoseX] = useState(0)
-  const [noseY, setNoseY] = useState(0)
   const [activeImage, setActiveImage] = useState({
     uri:
       'https://66.media.tumblr.com/13bd026170835d5ecf50175dfbbb5b5a/f4d2966ad493a972-62/s1280x1920/ef8260ba55a047239aad85bf52517abf5b6fbc2d.jpg'
@@ -92,9 +90,8 @@ const Photo = props => {
     }
     const detected = await FaceDetector.detectFacesAsync(imageUri, options)
     console.log('d', detected.faces.length, detected.faces[0])
+
     detected.faces.length && setFace(detected.faces[0])
-    detected.faces.length && setNoseX(detected.faces[0].noseBasePosition.x)
-    detected.faces.length && setNoseY(detected.faces[0].noseBasePosition.y)
     return detected
   }
 
@@ -141,6 +138,19 @@ const Photo = props => {
             <View>
               <TouchableHighlight
                 onPress={() => {
+                  setFace({
+                    leftEarPosition: {x: 0, y: 0},
+                    rightEarPosition: {x: 0, y: 0},
+                    leftEyePosition: {x: 0, y: 0},
+                    rightEyePosition: {x: 0, y: 0},
+                    leftCheekPosition: {x: 0, y: 0},
+                    rightCheekPosition: {x: 0, y: 0},
+                    bottomMouthPosition: {x: 0, y: 0},
+                    leftMouthPosition: {x: 0, y: 0},
+                    rightMouthPosition: {x: 0, y: 0},
+                    noseBasePosition: {x: 0, y: 0}
+                  })
+
                   setModalVisible(!modalVisible)
                 }}
               >
@@ -164,8 +174,8 @@ const Photo = props => {
                   height: 20,
                   backgroundColor: 'red',
                   position: 'absolute',
-                  top: (noseY / activeImage.height) * 600,
-                  left: (noseX / activeImage.width) * 400,
+                  top: (face.noseBasePosition.y / activeImage.height) * 600,
+                  left: (face.noseBasePosition.x / activeImage.width) * 400,
                   zIndex: 100
                 }}
               />
@@ -206,8 +216,7 @@ const Photo = props => {
                 }}
               />
               <Text>
-                {activeImage.height} {activeImage.width} {noseX} {noseY}{' '}
-                {(activeImage.height / 600) * noseY}
+                {activeImage.height} {activeImage.width}
               </Text>
             </View>
           </View>
