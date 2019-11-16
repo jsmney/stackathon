@@ -22,6 +22,8 @@ import {
   CameraRoll
 } from 'react-native'
 
+import {addPhoto} from '../config/firebase'
+
 // for saving canvas
 import {captureRef} from 'react-native-view-shot'
 
@@ -39,6 +41,7 @@ import * as FaceDetector from 'expo-face-detector'
 //styles
 import styles from '../styles'
 
+//photos fade in
 import FadeInView from './FadeInView'
 
 // on click: modal zooms in on image. facedetector adds shit.

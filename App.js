@@ -8,6 +8,27 @@ import {Provider} from 'react-redux'
 import {Main, CameraWindow, Photo} from './Components'
 import store from './store'
 
+import * as firebase from 'firebase'
+
+//listener on if logged in
+// firebase.auth().onAuthStateChanged(function(user) {
+//   if (user) {
+//     // User is signed in.
+//     console.log('auth state changed is logged in', user)
+//     store.dispatch(
+//       logIn({
+//         name: user.displayName,
+//         email: user.email,
+//         photoURL: user.photoURL,
+//         id: user.uid
+//       })
+//     )
+//   } else {
+//     // No user is signed in.
+//     store.dispatch(logOut())
+//   }
+// })
+
 const App = () => {
   const loadFonts = async () => {
     await Font.loadAsync({
