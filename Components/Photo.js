@@ -7,9 +7,9 @@ import {
   Header,
   Content,
   Button,
-  Text,
   Footer,
   FooterTab,
+  Text,
   Icon
 } from 'native-base'
 import {
@@ -38,6 +38,8 @@ import * as FaceDetector from 'expo-face-detector'
 
 //styles
 import styles from '../styles'
+
+import FadeInView from './FadeInView'
 
 // on click: modal zooms in on image. facedetector adds shit.
 const Photo = props => {
@@ -113,126 +115,143 @@ const Photo = props => {
   }
 
   return (
-    <ScrollView style={styles.gallery}>
+    <Container>
       <Header style={styles.headerContainer}>
         <Text style={styles.header}>Photos</Text>
       </Header>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          alignContent: 'center',
-          justifyContent: 'space-around',
-          alignItems: 'center'
-        }}
-      >
-        {captures &&
-          captures.map(capture => {
-            return (
-              <TouchableOpacity
-                key={capture.uri}
-                onPress={() => {
-                  setActiveImage(capture)
-                  setModalVisible(true)
-                  detectFaces(capture.uri)
-                }}
-              >
-                <Image
-                  style={{
-                    borderRadius: 10,
-                    height: 110,
-                    width: 110,
-                    margin: 10
-                  }}
-                  source={{uri: capture.uri}}
-                />
-              </TouchableOpacity>
-            )
-          })}
-      </View>
-      <Button onPress={_pickImage}>
-        <Text>Add from camera roll</Text>
-      </Button>
+      <Content>
+        <ScrollView style={styles.gallery}>
+          <FadeInView
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignContent: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+            }}
+          >
+            {captures &&
+              captures.map(capture => {
+                return (
+                  <TouchableOpacity
+                    key={capture.uri}
+                    onPress={() => {
+                      setActiveImage(capture)
+                      setModalVisible(true)
+                      detectFaces(capture.uri)
+                    }}
+                  >
+                    <Image
+                      style={{
+                        borderRadius: 10,
+                        height: 110,
+                        width: 110,
+                        margin: 10
+                      }}
+                      source={{uri: capture.uri}}
+                    />
+                  </TouchableOpacity>
+                )
+              })}
+          </FadeInView>
+          <Button onPress={_pickImage}>
+            <Text>Add from camera roll</Text>
+          </Button>
 
-      <View style={{marginTop: 22}}>
-        <Modal animationType="slide" transparent={false} visible={modalVisible}>
           <View style={{marginTop: 22}}>
-            <View
-              ref={ref => {
-                canvas = ref
-              }}
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={modalVisible}
             >
-              <Image
-                style={{
-                  borderRadius: 10,
-                  height: 550,
-                  width: 400,
-                  margin: 10,
-                  alignSelf: 'center',
-                  zIndex: -1
-                }}
-                source={{uri: activeImage.uri}}
-              />
-              <Image
-                style={{
-                  width: 60,
-                  height: 60,
-                  position: 'absolute',
-                  top:
-                    (face.noseBasePosition.y / activeImage.height) * 550 - 30,
-                  left:
-                    (face.noseBasePosition.x / activeImage.width) * 400 - 30,
-                  transform: [{rotate: `${face.rollAngle}deg` || '0deg'}],
-                  zIndex: 100
-                }}
-                source={nose}
-                resizeMode="contain"
-              />
-              <Image
-                style={{
-                  width: 80,
-                  height: 100,
-                  position: 'absolute',
-                  top:
-                    (face.rightEyePosition.y / activeImage.height) * 550 - 50,
-                  left:
-                    (face.rightEyePosition.x / activeImage.width) * 400 - 10,
-                  transform: [{rotate: `${face.rollAngle * -1}deg` || '0deg'}],
-                  zIndex: 98
-                }}
-                source={rightEye}
-                resizeMode="contain"
-              />
-              <Image
-                style={{
-                  width: 80,
-                  height: 100,
-                  position: 'absolute',
-                  top: (face.leftEyePosition.y / activeImage.height) * 550 - 50,
-                  left: (face.leftEyePosition.x / activeImage.width) * 400 - 60,
-                  transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
-                  zIndex: 90
-                }}
-                source={leftEye}
-                resizeMode="contain"
-              />
-              <Image
-                style={{
-                  width: 150,
-                  height: 55,
-                  position: 'absolute',
-                  top:
-                    (face.bottomMouthPosition.y / activeImage.height) * 550 -
-                    35,
-                  left:
-                    (face.bottomMouthPosition.x / activeImage.width) * 400 - 60,
-                  transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
-                  zIndex: 99
-                }}
-                source={mouth}
-                resizeMode="contain"
-              />
-              {/* <View
+              <View style={{marginTop: 22}}>
+                <View
+                  ref={ref => {
+                    canvas = ref
+                  }}
+                >
+                  <Image
+                    style={{
+                      borderRadius: 10,
+                      height: 550,
+                      width: 400,
+                      margin: 10,
+                      alignSelf: 'center',
+                      zIndex: -1
+                    }}
+                    source={{uri: activeImage.uri}}
+                  />
+                  <Image
+                    style={{
+                      width: 60,
+                      height: 60,
+                      position: 'absolute',
+                      top:
+                        (face.noseBasePosition.y / activeImage.height) * 550 -
+                        30,
+                      left:
+                        (face.noseBasePosition.x / activeImage.width) * 400 -
+                        30,
+                      transform: [{rotate: `${face.rollAngle}deg` || '0deg'}],
+                      zIndex: 100
+                    }}
+                    source={nose}
+                    resizeMode="contain"
+                  />
+                  <Image
+                    style={{
+                      width: 80,
+                      height: 100,
+                      position: 'absolute',
+                      top:
+                        (face.rightEyePosition.y / activeImage.height) * 550 -
+                        50,
+                      left:
+                        (face.rightEyePosition.x / activeImage.width) * 400 -
+                        10,
+                      transform: [
+                        {rotate: `${face.rollAngle * -1}deg` || '0deg'}
+                      ],
+                      zIndex: 98
+                    }}
+                    source={rightEye}
+                    resizeMode="contain"
+                  />
+                  <Image
+                    style={{
+                      width: 80,
+                      height: 100,
+                      position: 'absolute',
+                      top:
+                        (face.leftEyePosition.y / activeImage.height) * 550 -
+                        50,
+                      left:
+                        (face.leftEyePosition.x / activeImage.width) * 400 - 60,
+                      transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
+                      zIndex: 90
+                    }}
+                    source={leftEye}
+                    resizeMode="contain"
+                  />
+                  <Image
+                    style={{
+                      width: 150,
+                      height: 55,
+                      position: 'absolute',
+                      top:
+                        (face.bottomMouthPosition.y / activeImage.height) *
+                          550 -
+                        35,
+                      left:
+                        (face.bottomMouthPosition.x / activeImage.width) * 400 -
+                        60,
+                      transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
+                      zIndex: 99
+                    }}
+                    source={mouth}
+                    resizeMode="contain"
+                  />
+                  {/* <View
                 style={{
                   borderRadius: 10,
                   width:
@@ -246,118 +265,128 @@ const Photo = props => {
                   opacity: 0.4
                 }}
               /> */}
-              <Text>{hasSaved && 'success!'}</Text>
-            </View>
-            <Footer>
-              <FooterTab>
-                <Button
-                  onPress={() => {
-                    setLeftEye(require('../assets/clear.png'))
-                    setRightEye(require('../assets/clear.png'))
-                    setNose(require('../assets/clear.png'))
-                    setMouth(require('../assets/clear.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="eraser" />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setLeftEye(require('../assets/heart.png'))
-                    setRightEye(require('../assets/heart.png'))
-                    setNose(require('../assets/clear.png'))
-                    setMouth(require('../assets/rosem.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="heart" />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setLeftEye(require('../assets/lefteyeb.png'))
-                    setRightEye(require('../assets/righteyeb.png'))
-                    setNose(require('../assets/nose.png'))
-                    setMouth(require('../assets/mouth.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="emoji-happy" />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setLeftEye(require('../assets/lefteyeb.png'))
-                    setRightEye(require('../assets/winkright.png'))
-                    setNose(require('../assets/nose.png'))
-                    setMouth(require('../assets/mouth.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="emoji-flirt" />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setLeftEye(require('../assets/shinyeye.png'))
-                    setRightEye(require('../assets/shinyeye.png'))
-                    setNose(require('../assets/clear.png'))
-                    setMouth(require('../assets/animem.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="eye" />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setLeftEye(require('../assets/lefteyeb.png'))
-                    setRightEye(require('../assets/righteyeb.png'))
-                    setNose(require('../assets/nose.png'))
-                    setMouth(require('../assets/mouth.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="pencil" />
-                </Button>
-              </FooterTab>
-            </Footer>
-            <Footer>
-              <FooterTab>
-                <Button
-                  onPress={() => {
-                    setFace(initFaceState)
-                    setHasSaved(false)
-                    setModalVisible(!modalVisible)
-                  }}
-                >
-                  <Icon ios="ios-close" android="md-close" />
-                  <Text>Close</Text>
-                </Button>
-                <Button
-                  onPress={async () => {
-                    captureRef(canvas, {
-                      format: 'jpg',
-                      quality: 0.9
-                    }).then(
-                      uri => CameraRoll.saveToCameraRoll(uri),
-                      error => console.error('oops', error)
-                    )
-                    setHasSaved(true)
-                  }}
-                >
-                  <Icon ios="ios-save" android="md-save" />
-                  <Text>Save Modified</Text>
-                </Button>
-                <Button
-                  onPress={async () => {
-                    await CameraRoll.saveToCameraRoll(activeImage.uri)
-                    setHasSaved(true)
-                  }}
-                >
-                  <Icon ios="ios-save" android="md-save" />
-                  <Text>Save Original</Text>
-                </Button>
-              </FooterTab>
-            </Footer>
+                  <Text>{hasSaved && 'success!'}</Text>
+                </View>
+                <Footer>
+                  <FooterTab>
+                    <Button
+                      onPress={() => {
+                        setLeftEye(require('../assets/clear.png'))
+                        setRightEye(require('../assets/clear.png'))
+                        setNose(require('../assets/clear.png'))
+                        setMouth(require('../assets/clear.png'))
+                      }}
+                    >
+                      <Icon type="Entypo" name="eraser" />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        setLeftEye(require('../assets/heart.png'))
+                        setRightEye(require('../assets/heart.png'))
+                        setNose(require('../assets/clear.png'))
+                        setMouth(require('../assets/rosem.png'))
+                      }}
+                    >
+                      <Icon type="Entypo" name="heart" />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        setLeftEye(require('../assets/lefteyeb.png'))
+                        setRightEye(require('../assets/righteyeb.png'))
+                        setNose(require('../assets/nose.png'))
+                        setMouth(require('../assets/mouth.png'))
+                      }}
+                    >
+                      <Icon type="Entypo" name="emoji-happy" />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        setLeftEye(require('../assets/lefteyeb.png'))
+                        setRightEye(require('../assets/winkright.png'))
+                        setNose(require('../assets/nose.png'))
+                        setMouth(require('../assets/mouth.png'))
+                      }}
+                    >
+                      <Icon type="Entypo" name="emoji-flirt" />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        setLeftEye(require('../assets/shinyeye.png'))
+                        setRightEye(require('../assets/shinyeye.png'))
+                        setNose(require('../assets/clear.png'))
+                        setMouth(require('../assets/animem.png'))
+                      }}
+                    >
+                      <Icon type="Entypo" name="eye" />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        setLeftEye(require('../assets/lefteyeb.png'))
+                        setRightEye(require('../assets/righteyeb.png'))
+                        setNose(require('../assets/nose.png'))
+                        setMouth(require('../assets/mouth.png'))
+                      }}
+                    >
+                      <Icon type="Entypo" name="pencil" />
+                    </Button>
+                  </FooterTab>
+                </Footer>
+                <Footer>
+                  <FooterTab>
+                    <Button
+                      onPress={() => {
+                        setFace(initFaceState)
+                        setHasSaved(false)
+                        setModalVisible(!modalVisible)
+                        setLeftEye(require('../assets/clear.png'))
+                        setRightEye(require('../assets/clear.png'))
+                        setNose(require('../assets/clear.png'))
+                        setMouth(require('../assets/clear.png'))
+                      }}
+                    >
+                      <Icon ios="ios-close" android="md-close" />
+                      <Text>Close</Text>
+                    </Button>
+                    <Button
+                      onPress={async () => {
+                        captureRef(canvas, {
+                          format: 'jpg',
+                          quality: 0.9
+                        }).then(
+                          uri => CameraRoll.saveToCameraRoll(uri),
+                          error => console.error('oops', error)
+                        )
+                        setHasSaved(true)
+                      }}
+                    >
+                      <Icon ios="ios-save" android="md-save" />
+                      <Text>Save Modified</Text>
+                    </Button>
+                    <Button
+                      onPress={async () => {
+                        await CameraRoll.saveToCameraRoll(activeImage.uri)
+                        setHasSaved(true)
+                      }}
+                    >
+                      <Icon ios="ios-save" android="md-save" />
+                      <Text>Save Original</Text>
+                    </Button>
+                  </FooterTab>
+                </Footer>
+              </View>
+            </Modal>
           </View>
-        </Modal>
-      </View>
+        </ScrollView>
+      </Content>
       <Footer>
         <FooterTab>
           <Button onPress={() => props.history.push('/')}>
             <Icon ios="ios-home" android="md-home" />
             <Text>Home</Text>
+          </Button>
+          <Button onPress={_pickImage}>
+            <Icon type="MaterialIcons" name="camera-roll" />
+            <Text>Camera Roll</Text>
           </Button>
           <Button onPress={() => props.history.push('/camera')}>
             <Icon ios="ios-camera" android="md-camera" />
@@ -365,7 +394,7 @@ const Photo = props => {
           </Button>
         </FooterTab>
       </Footer>
-    </ScrollView>
+    </Container>
   )
 }
 

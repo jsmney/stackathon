@@ -21,6 +21,7 @@ import {Link} from 'react-router-native'
 import {addCapture} from '../store'
 import styles from '../styles'
 import Photo from './Photo'
+import FadeInView from './FadeInView'
 
 // CameraRoll.saveToCameraRoll(tag, [type]);
 const CameraWindow = props => {
@@ -60,7 +61,7 @@ const CameraWindow = props => {
     return <Text>No access to camera</Text>
   } else {
     return (
-      <View style={{flex: 1}}>
+      <FadeInView style={{flex: 1}}>
         <Header transparent>
           <Left>
             <TouchableOpacity
@@ -137,7 +138,7 @@ const CameraWindow = props => {
             </Button>
           </FooterTab>
         </Footer>
-      </View>
+      </FadeInView>
     )
   }
 }
