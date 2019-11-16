@@ -5,6 +5,7 @@ import * as Font from 'expo-font'
 import {Ionicons} from '@expo/vector-icons'
 import {NativeRouter, Route} from 'react-router-native'
 import {Provider} from 'react-redux'
+import {Root} from 'native-base'
 import {Main, CameraWindow, Photo} from './Components'
 import store from './store'
 
@@ -21,13 +22,15 @@ const App = () => {
   }, [])
 
   return (
-    <Provider store={store}>
-      <NativeRouter>
-        <Route path="/camera" component={CameraWindow} />
-        <Route path="/photo" component={Photo} />
-        <Route exact path="/" component={Main} />
-      </NativeRouter>
-    </Provider>
+    <Root>
+      <Provider store={store}>
+        <NativeRouter>
+          <Route path="/camera" component={CameraWindow} />
+          <Route path="/photo" component={Photo} />
+          <Route exact path="/" component={Main} />
+        </NativeRouter>
+      </Provider>
+    </Root>
   )
 }
 

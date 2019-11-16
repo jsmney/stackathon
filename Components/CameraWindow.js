@@ -13,7 +13,8 @@ import {
   Left,
   Body,
   Right,
-  Title
+  Title,
+  Toast
 } from 'native-base'
 import * as Permissions from 'expo-permissions'
 import {Camera} from 'expo-camera'
@@ -130,7 +131,15 @@ const CameraWindow = props => {
             <Button onPress={() => props.history.push('/')}>
               <Icon ios="ios-home" android="md-home" />
             </Button>
-            <Button onPress={handleCapture}>
+            <Button
+              onPress={() => {
+                handleCapture()
+                Toast.show({
+                  text: 'Wrong password!',
+                  buttonText: 'Okay'
+                })
+              }}
+            >
               <Icon name="camera" />
             </Button>
             <Button onPress={() => props.history.push('/photo')}>
