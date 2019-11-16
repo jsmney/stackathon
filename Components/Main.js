@@ -1,6 +1,15 @@
 import React from 'react'
 import {View} from 'react-native'
-import {Container, Header, Content, Button, Text} from 'native-base'
+import {
+  Container,
+  Header,
+  Content,
+  Button,
+  Text,
+  Footer,
+  FooterTab,
+  Icon
+} from 'native-base'
 
 import styles from '../styles'
 
@@ -26,6 +35,19 @@ const Main = props => {
           <Text> Gallery </Text>
         </Button>
       </Content>
+      <Footer>
+        <FooterTab>
+          <Button onPress={() => props.history.push('/')}>
+            <Icon ios="ios-heart" android="md-heart" />
+          </Button>
+          <Button onPress={() => props.history.push('/camera')}>
+            <Icon ios="ios-camera" android="md-camera" />
+          </Button>
+          <Button onPress={() => props.history.push('/photo')}>
+            <Icon ios="ios-images" android="md-photos" />
+          </Button>
+        </FooterTab>
+      </Footer>
     </Container>
 
     // <View style={styles.container}>

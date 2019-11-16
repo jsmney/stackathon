@@ -186,25 +186,27 @@ const Photo = props => {
                   zIndex: 100
                 }}
                 source={nose}
+                resizeMode="contain"
               />
               <Image
                 style={{
                   width: 80,
-                  height: 90,
+                  height: 100,
                   position: 'absolute',
                   top:
                     (face.rightEyePosition.y / activeImage.height) * 550 - 50,
                   left:
-                    (face.rightEyePosition.x / activeImage.width) * 400 - 20,
+                    (face.rightEyePosition.x / activeImage.width) * 400 - 10,
                   transform: [{rotate: `${face.rollAngle * -1}deg` || '0deg'}],
                   zIndex: 98
                 }}
                 source={rightEye}
+                resizeMode="contain"
               />
               <Image
                 style={{
                   width: 80,
-                  height: 90,
+                  height: 100,
                   position: 'absolute',
                   top: (face.leftEyePosition.y / activeImage.height) * 550 - 50,
                   left: (face.leftEyePosition.x / activeImage.width) * 400 - 60,
@@ -212,21 +214,23 @@ const Photo = props => {
                   zIndex: 90
                 }}
                 source={leftEye}
+                resizeMode="contain"
               />
               <Image
                 style={{
-                  width: 120,
-                  height: 60,
+                  width: 150,
+                  height: 55,
                   position: 'absolute',
                   top:
                     (face.bottomMouthPosition.y / activeImage.height) * 550 -
-                    50,
+                    35,
                   left:
                     (face.bottomMouthPosition.x / activeImage.width) * 400 - 60,
                   transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
                   zIndex: 99
                 }}
                 source={mouth}
+                resizeMode="contain"
               />
               {/* <View
                 style={{
@@ -258,29 +262,19 @@ const Photo = props => {
                 </Button>
                 <Button
                   onPress={() => {
-                    setLeftEye(require('../assets/lefteyeb.png'))
-                    setRightEye(require('../assets/righteyeb.png'))
-                    setNose(require('../assets/nose.png'))
-                    setMouth(require('../assets/mouth.png'))
-                  }}
-                >
-                  <Icon type="Entypo" name="shuffle" />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setLeftEye('../assets/heart.png')
-                    setRightEye('../assets/heart.png')
+                    setLeftEye(require('../assets/heart.png'))
+                    setRightEye(require('../assets/heart.png'))
                     setNose(require('../assets/clear.png'))
-                    setMouth(require('../assets/clear.png'))
+                    setMouth(require('../assets/rosem.png'))
                   }}
                 >
                   <Icon type="Entypo" name="heart" />
                 </Button>
                 <Button
                   onPress={() => {
-                    setLeftEye(require('../assets/clear.png'))
-                    setRightEye(require('../assets/clear.png'))
-                    setNose(require('../assets/clear.png'))
+                    setLeftEye(require('../assets/lefteyeb.png'))
+                    setRightEye(require('../assets/righteyeb.png'))
+                    setNose(require('../assets/nose.png'))
                     setMouth(require('../assets/mouth.png'))
                   }}
                 >
@@ -289,7 +283,7 @@ const Photo = props => {
                 <Button
                   onPress={() => {
                     setLeftEye(require('../assets/lefteyeb.png'))
-                    setRightEye(require('../assets/righteyeb.png'))
+                    setRightEye(require('../assets/winkright.png'))
                     setNose(require('../assets/nose.png'))
                     setMouth(require('../assets/mouth.png'))
                   }}
@@ -301,7 +295,7 @@ const Photo = props => {
                     setLeftEye(require('../assets/shinyeye.png'))
                     setRightEye(require('../assets/shinyeye.png'))
                     setNose(require('../assets/clear.png'))
-                    setMouth(require('../assets/clear.png'))
+                    setMouth(require('../assets/animem.png'))
                   }}
                 >
                   <Icon type="Entypo" name="eye" />
@@ -364,6 +358,10 @@ const Photo = props => {
           <Button onPress={() => props.history.push('/')}>
             <Icon ios="ios-home" android="md-home" />
             <Text>Home</Text>
+          </Button>
+          <Button onPress={() => props.history.push('/camera')}>
+            <Icon ios="ios-camera" android="md-camera" />
+            <Text>Camera</Text>
           </Button>
         </FooterTab>
       </Footer>
