@@ -114,18 +114,6 @@ const CameraWindow = props => {
             }}
           ></View>
         </Camera>
-
-        <View
-          style={{
-            height: 60,
-            padding: 15,
-            backgroundColor: 'transparent'
-          }}
-        >
-          {captures.length > 0 && (
-            <Text>Success! {captures.length} photo(s) taken</Text>
-          )}
-        </View>
         <Footer>
           <FooterTab>
             <Button onPress={() => props.history.push('/')}>
@@ -135,8 +123,10 @@ const CameraWindow = props => {
               onPress={() => {
                 handleCapture()
                 Toast.show({
-                  text: 'Wrong password!',
-                  buttonText: 'Okay'
+                  text: 'Photo captured!',
+                  buttonText: 'Okay',
+                  position: "top",
+                  type: "success"
                 })
               }}
             >

@@ -63,5 +63,9 @@ export default StyleSheet.create({
   button: {
     margin: 10,
     zIndex: 10000
+  },
+  msg: {
+    textAlign: 'center',
+    padding: 5
   }
 })
