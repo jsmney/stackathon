@@ -154,9 +154,6 @@ const Photo = props => {
                 )
               })}
           </FadeInView>
-          <Button onPress={_pickImage}>
-            <Text>Add from camera roll</Text>
-          </Button>
 
           <View style={{marginTop: 22}}>
             <Modal
@@ -319,7 +316,7 @@ const Photo = props => {
                     >
                       <Icon type="Entypo" name="eye" />
                     </Button>
-                    <Button
+                    {/* <Button
                       onPress={() => {
                         setLeftEye(require('../assets/lefteyeb.png'))
                         setRightEye(require('../assets/righteyeb.png'))
@@ -328,7 +325,7 @@ const Photo = props => {
                       }}
                     >
                       <Icon type="Entypo" name="pencil" />
-                    </Button>
+                    </Button> */}
                   </FooterTab>
                 </Footer>
                 <Footer>
@@ -384,13 +381,15 @@ const Photo = props => {
             <Icon ios="ios-home" android="md-home" />
             <Text>Home</Text>
           </Button>
-          <Button onPress={_pickImage}>
-            <Icon type="MaterialIcons" name="camera-roll" />
-            <Text>Camera Roll</Text>
-          </Button>
+
           <Button onPress={() => props.history.push('/camera')}>
             <Icon ios="ios-camera" android="md-camera" />
             <Text>Camera</Text>
+          </Button>
+
+          <Button onPress={_pickImage}>
+            <Icon type="MaterialIcons" name="camera-roll" />
+            <Text>Camera Roll</Text>
           </Button>
         </FooterTab>
       </Footer>
