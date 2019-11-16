@@ -63,6 +63,10 @@ const Photo = props => {
   const [activeImage, setActiveImage] = useState({
     uri: ''
   })
+  const [leftEye, setLeftEye] = useState(require('../assets/clear.png'))
+  const [rightEye, setRightEye] = useState(require('../assets/clear.png'))
+  const [nose, setNose] = useState(require('../assets/clear.png'))
+  const [mouth, setMouth] = useState(require('../assets/clear.png'))
 
   //for saving image with stuff on it
   let canvas = null
@@ -181,7 +185,7 @@ const Photo = props => {
                   transform: [{rotate: `${face.rollAngle}deg` || '0deg'}],
                   zIndex: 100
                 }}
-                source={require('../assets/nose.png')}
+                source={nose}
               />
               <Image
                 style={{
@@ -195,7 +199,7 @@ const Photo = props => {
                   transform: [{rotate: `${face.rollAngle * -1}deg` || '0deg'}],
                   zIndex: 98
                 }}
-                source={require('../assets/righteyeb.png')}
+                source={rightEye}
               />
               <Image
                 style={{
@@ -207,7 +211,7 @@ const Photo = props => {
                   transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
                   zIndex: 90
                 }}
-                source={require('../assets/lefteyeb.png')}
+                source={leftEye}
               />
               <Image
                 style={{
@@ -222,7 +226,7 @@ const Photo = props => {
                   transform: [{rotate: `-${face.rollAngle}deg` || '0deg'}],
                   zIndex: 99
                 }}
-                source={require('../assets/mouth.png')}
+                source={mouth}
               />
               {/* <View
                 style={{
@@ -242,22 +246,74 @@ const Photo = props => {
             </View>
             <Footer>
               <FooterTab>
-                <Button onPress={console.log('shu')}>
+                <Button
+                  onPress={() => {
+                    setLeftEye(require('../assets/clear.png'))
+                    setRightEye(require('../assets/clear.png'))
+                    setNose(require('../assets/clear.png'))
+                    setMouth(require('../assets/clear.png'))
+                  }}
+                >
+                  <Icon type="Entypo" name="eraser" />
+                </Button>
+                <Button
+                  onPress={() => {
+                    setLeftEye(require('../assets/lefteyeb.png'))
+                    setRightEye(require('../assets/righteyeb.png'))
+                    setNose(require('../assets/nose.png'))
+                    setMouth(require('../assets/mouth.png'))
+                  }}
+                >
                   <Icon type="Entypo" name="shuffle" />
                 </Button>
-                <Button onPress={console.log('shu')}>
+                <Button
+                  onPress={() => {
+                    setLeftEye('../assets/heart.png')
+                    setRightEye('../assets/heart.png')
+                    setNose(require('../assets/clear.png'))
+                    setMouth(require('../assets/clear.png'))
+                  }}
+                >
                   <Icon type="Entypo" name="heart" />
                 </Button>
-                <Button onPress={console.log('shu')}>
+                <Button
+                  onPress={() => {
+                    setLeftEye(require('../assets/clear.png'))
+                    setRightEye(require('../assets/clear.png'))
+                    setNose(require('../assets/clear.png'))
+                    setMouth(require('../assets/mouth.png'))
+                  }}
+                >
+                  <Icon type="Entypo" name="emoji-happy" />
+                </Button>
+                <Button
+                  onPress={() => {
+                    setLeftEye(require('../assets/lefteyeb.png'))
+                    setRightEye(require('../assets/righteyeb.png'))
+                    setNose(require('../assets/nose.png'))
+                    setMouth(require('../assets/mouth.png'))
+                  }}
+                >
                   <Icon type="Entypo" name="emoji-flirt" />
                 </Button>
-                <Button onPress={console.log('shu')}>
-                  <Icon type="Entypo" name="hand" />
-                </Button>
-                <Button onPress={console.log('shu')}>
+                <Button
+                  onPress={() => {
+                    setLeftEye(require('../assets/shinyeye.png'))
+                    setRightEye(require('../assets/shinyeye.png'))
+                    setNose(require('../assets/clear.png'))
+                    setMouth(require('../assets/clear.png'))
+                  }}
+                >
                   <Icon type="Entypo" name="eye" />
                 </Button>
-                <Button onPress={console.log('shu')}>
+                <Button
+                  onPress={() => {
+                    setLeftEye(require('../assets/lefteyeb.png'))
+                    setRightEye(require('../assets/righteyeb.png'))
+                    setNose(require('../assets/nose.png'))
+                    setMouth(require('../assets/mouth.png'))
+                  }}
+                >
                   <Icon type="Entypo" name="pencil" />
                 </Button>
               </FooterTab>
