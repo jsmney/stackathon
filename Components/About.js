@@ -32,9 +32,12 @@ import {
   getCurrentUser
 } from './../stitch/auth'
 
+import {useDispatch} from 'react-redux'
+import addGuestbookEntry from '../store'
 import styles from '../styles'
 
 const About = props => {
+  const dispatch = useDispatch()
   const [text, setText] = useState('')
   const [name, setName] = useState('')
   let _confettiView = null
@@ -71,40 +74,37 @@ const About = props => {
   }
 
   const addEntry = async entry => {
-    await items.insertOne(entry)
-    dispatch(addGuestbookEntry(entry))
+    try {
+      await items.insertOne(entry)
+      dispatch(addGuestbookEntry(entry))
+    } catch (err) {
+      console.error(err)
+    }
   }
-  const removeEntry = async entryId => {
-    await items.deleteOne({_id: entryId})
-    dispatch(removeGuestbookEntry(entry))
-  }
+  // const removeEntry = async entryId => {
+  //   try {
+  //     await items.deleteOne({_id: entryId})
+  //     dispatch(removeGuestbookEntry(entry))
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
 
   const handleSubmit = () => {
     Keyboard.dismiss()
-    const stitchAppClient = Stitch.defaultAppClient
-    const mongoClient = stitchAppClient.getServiceClient(
-      RemoteMongoClient.factory,
-      'mongodb-atlas'
-    )
-    const db = mongoClient.db('facestuff')
-    const entry = db.collection('guestbook')
+
     if (text.length && name.length) {
-      entry
-        .insertOne({
-          message: text,
-          name: name,
-          createdOn: new Date()
-        })
-        .then(() => {
-          if (_confettiView) {
-            _confettiView.startConfetti()
-          }
-          setText('')
-          setName('')
-        })
-        .catch(err => {
-          console.warn(err)
-        })
+      addEntry({
+        message: text,
+        name: name,
+        createdOn: new Date()
+      })
+
+      if (_confettiView) {
+        _confettiView.startConfetti()
+      }
+      setText('')
+      setName('')
     }
   }
 

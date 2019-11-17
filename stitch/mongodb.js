@@ -1,8 +1,12 @@
-import {RemoteMongoClient} from 'mongodb-stitch-react-native-sdk'
-import {app} from './index'
+import {
+  Stitch,
+  getServiceClient,
+  RemoteMongoClient
+} from 'mongodb-stitch-react-native-sdk'
+import initApp from './index'
 
 // TODO: Initialize a MongoDB Service Client
-const mongoClient = app.getServiceClient(
+const mongoClient = initApp().getServiceClient(
   RemoteMongoClient.factory,
   'mongodb-atlas'
 )
