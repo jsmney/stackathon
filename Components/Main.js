@@ -13,7 +13,7 @@ import {
 } from 'native-base'
 
 import styles from '../styles'
-
+//from the tutorial I used: rn-fetch-blob won't work with expo. wellppppp
 const Main = props => {
   return (
     <Container>
@@ -60,7 +60,7 @@ const Main = props => {
           <Text styles={styles.homeText}>
             <Icon type="Foundation" name="burst" /> Have fun!
           </Text>
-                </Content>
+        </Content>
       </Content>
       <Footer>
         <FooterTab>
