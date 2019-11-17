@@ -1890,11 +1890,6 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-detect-browser@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/detect-browser/-/detect-browser-3.0.1.tgz#39beead014347a8a2be1f3c4cb30a0aef2127c44"
-  integrity sha512-L6b76EfUxnoxGHM5Vz7nrshQPIbOHtitDWpGufrp5srQdJrEYi1xpUVZeFbfssWAJvUWo/iDIVlz8hOP4Z8OCw==
-
 detect-libc@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
@@ -3858,32 +3853,6 @@ moment@^2.24.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
-mongodb-stitch-browser-core@^4.7.1:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/mongodb-stitch-browser-core/-/mongodb-stitch-browser-core-4.7.1.tgz#506b8cf390dac7668ebbae9de62dfc508543d17f"
-  integrity sha512-KqW0S8uPkSBFMs80Jfx8plzp5o50krHwLGsoqbFFfoRWbcfGMiNYkpwGiAmSeEzYZsauVDwH4remYkumxUZ/oA==
-  dependencies:
-    bson "4.0.2"
-    detect-browser "^3.0.0"
-    mongodb-stitch-core-sdk "^4.7.1"
-    whatwg-fetch "^3.0.0"
-
-mongodb-stitch-browser-sdk@^4.7.1:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/mongodb-stitch-browser-sdk/-/mongodb-stitch-browser-sdk-4.7.1.tgz#bc04d0c8b8d32a1a9b60d326071dd2a65aa80ca1"
-  integrity sha512-9fIIMhVF+VhvBZ7I9SJWQyBWuTY9QzUv6GuG4q9YX0dzfpzQLkFsEziJmjZwJzPBjCpm+10PLvqKSdUWWgb53Q==
-  dependencies:
-    mongodb-stitch-browser-core "^4.7.1"
-    mongodb-stitch-browser-services-mongodb-remote "^4.7.1"
-
-mongodb-stitch-browser-services-mongodb-remote@^4.7.1:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/mongodb-stitch-browser-services-mongodb-remote/-/mongodb-stitch-browser-services-mongodb-remote-4.7.1.tgz#d9ddb93cb87256f692efb102084d60a779dbddb9"
-  integrity sha512-KTIpAXwYZcvKL72QcN8HTKVR19zVdDHNnQaVpFt1EP63/YPQb2NoXIlSVxJdp/PCvpWltuhgVH2p+ZkmPNgoUw==
-  dependencies:
-    mongodb-stitch-browser-core "^4.7.1"
-    mongodb-stitch-core-services-mongodb-remote "^4.7.1"
-
 mongodb-stitch-core-sdk@^4.7.1:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/mongodb-stitch-core-sdk/-/mongodb-stitch-core-sdk-4.7.1.tgz#a19fc2113bab4f17b46befe7e2fd4bf4a2dddc37"
@@ -5802,7 +5771,7 @@ watch@~0.18.0:
     exec-sh "^0.2.0"
     minimist "^1.2.0"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
+whatwg-fetch@>=0.10.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==

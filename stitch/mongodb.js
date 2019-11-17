@@ -1,4 +1,4 @@
-import {RemoteMongoClient} from 'mongodb-stitch-browser-sdk'
+import {RemoteMongoClient} from 'mongodb-stitch-react-native-sdk'
 import {app} from './index'
 
 // TODO: Initialize a MongoDB Service Client

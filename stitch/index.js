@@ -1,4 +1,4 @@
-import {Stitch} from 'mongodb-stitch-browser-sdk'
+import {Stitch} from 'mongodb-stitch-react-native-sdk'
 
 // TODO: Add your Stitch app's App ID
 const APP_ID = 'fsa-stackathon-ajmxk'

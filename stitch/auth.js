@@ -1,4 +1,4 @@
-import {AnonymousCredential} from 'mongodb-stitch-browser-sdk'
+import {AnonymousCredential} from 'mongodb-stitch-react-native-sdk'
 import {app} from './index.js'
 
 export function loginAnonymous() {
