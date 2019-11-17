@@ -36,5 +36,13 @@ export default StyleSheet.create({
 
   homeText: {
     padding: 22
+  },
+
+  input: {
+    height: 400,
+    width: 200,
+    backgroundColor: 'pink',
+    flex: 1,
+    alignContent: 'space-around'
   }
 })

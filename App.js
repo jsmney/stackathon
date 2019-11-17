@@ -9,7 +9,13 @@ import {Root} from 'native-base'
 import {Main, CameraWindow, Photo, About} from './Components'
 import store from './store'
 
+//mongo
+import {Stitch, AnonymousCredential} from 'mongodb-stitch-react-native-sdk'
+
 const App = () => {
+  const [currentUserId, setCurrentUserId] = useState(undefined)
+  const [client, setClient] = useState(undefined)
+
   const loadFonts = async () => {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -17,8 +23,27 @@ const App = () => {
       ...Ionicons.font
     })
   }
+
+  const loadClient = () => {
+    Stitch.initializeDefaultAppClient('fsa-stackathon-ajmxk').then(client => {
+      setClient(client)
+      client.auth
+        .loginWithCredential(new AnonymousCredential())
+        .then(user => {
+          console.log(`Successfully logged in as user ${user.id}`)
+          setCurrentUserId(user.id)
+          setCurrentUserId(client.auth.user.id)
+        })
+        .catch(err => {
+          console.log(`Failed to log in anonymously: ${err}`)
+          setCurrentUserId(undefined)
+        })
+    })
+  }
+
   useEffect(() => {
     loadFonts()
+    loadClient()
   }, [])
 
   return (
