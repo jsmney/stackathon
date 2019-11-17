@@ -23,6 +23,73 @@ import {
 } from 'react-native'
 
 import {addPhoto} from '../config/firebase'
+// import ImagePickerRN from 'react-native-image-picker'
+import RNFetchBlob from 'react-native-fetch-blob'
+import firebase from 'firebase'
+
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+// window.Blob = Blob
+
+export const uploadImage = (uri, mime = 'application/octet-stream') => {
+  return () => {
+    return new Promise((resolve, reject) => {
+      // const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+      const uploadUri = uri.replace('file://', '')
+      const sessionId = new Date().getTime()
+      let uploadBlob = null
+      //create ref in firebase storate for file
+      const imageRef = firebase
+        .storage()
+        .ref('photos')
+        .child(sessionId)
+      //encode data with base64 prior to upload
+      fs.readFile(uploadUri, 'base64')
+        .then(data => {
+          return Blob.build(data, {type: `${mime};BASE64`})
+        })
+        //place blob into storage ref
+        .then(blob => {
+          uploadBlob = blob
+          return imageRef.put(blob, {contentType: mime})
+        })
+        //then you can get download url of img
+        //store as ref to in database
+        .then(() => {
+          uploadBlob.close()
+          return imageRef.getDownloadURL()
+        })
+        .then(url => {
+          resolve(url)
+          //this storeRef function is an optional helper
+          //to refer to download url in database
+          storeReference(url, sessionId)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
+}
+
+const storeReference = (downloadUrl, sessionId) => {
+  // let imageRef = firebase
+  //   .storage()
+  //   .ref('photos')
+  //   .child(sessionId)
+  // let currentUser = firebase.auth().currentUser
+  let image = {
+    type: 'image',
+    url: downloadUrl,
+    createdAt: sessionId
+    //user: currentUser
+  }
+  firebase
+    .database()
+    .ref('photos')
+    .push(image)
+}
 
 // for saving canvas
 import {captureRef} from 'react-native-view-shot'
@@ -115,15 +182,6 @@ const Photo = props => {
 
     detected.faces.length && setFace(detected.faces[0])
     return detected
-  }
-
-  //toast
-  const showToast = () => {
-    Toast.show({
-      text: 'modal toast',
-      position: 'top',
-      duration: 3000
-    })
   }
 
   return (
@@ -383,6 +441,22 @@ const Photo = props => {
                     >
                       <Icon ios="ios-save" android="md-save" />
                       <Text>Save Original</Text>
+                    </Button>
+                    <Button
+                      onPress={async () => {
+                        captureRef(canvas, {
+                          format: 'jpg',
+                          quality: 0.9
+                        }).then(
+                          uri => {
+                            uploadImage(uri)
+                          },
+                          error => console.error('oops', error)
+                        )
+                      }}
+                    >
+                      <Icon ios="ios-upload" android="md-upload" />
+                      <Text>Upload</Text>
                     </Button>
                   </FooterTab>
                 </Footer>
