@@ -24,21 +24,23 @@ const App = () => {
     })
   }
 
-  const loadClient = () => {
-    Stitch.initializeDefaultAppClient('fsa-stackathon-ajmxk').then(client => {
-      setClient(client)
-      client.auth
-        .loginWithCredential(new AnonymousCredential())
-        .then(user => {
-          console.log(`Successfully logged in as user ${user.id}`)
-          setCurrentUserId(user.id)
-          setCurrentUserId(client.auth.user.id)
-        })
-        .catch(err => {
-          console.log(`Failed to log in anonymously: ${err}`)
-          setCurrentUserId(undefined)
-        })
-    })
+  const loadClient = async () => {
+    await Stitch.initializeDefaultAppClient('fsa-stackathon-ajmxk').then(
+      client => {
+        setClient(client)
+        client.auth
+          .loginWithCredential(new AnonymousCredential())
+          .then(user => {
+            console.log(`Successfully logged in as user ${user.id}`)
+            setCurrentUserId(user.id)
+            setCurrentUserId(client.auth.user.id)
+          })
+          .catch(err => {
+            console.log(`Failed to log in anonymously: ${err}`)
+            setCurrentUserId(undefined)
+          })
+      }
+    )
   }
 
   useEffect(() => {

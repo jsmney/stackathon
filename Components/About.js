@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   H2,
   Text,
@@ -10,49 +10,127 @@ import {
   Button,
   Icon,
   Textarea,
-  Input
+  Input,
+  Card,
+  CardItem
 } from 'native-base'
 import {View, TouchableOpacity, Keyboard, TextInput} from 'react-native'
 
 //mongo?
 import Confetti from 'react-native-confetti'
-import {Stitch, RemoteMongoClient} from 'mongodb-stitch-react-native-sdk'
+import {
+  Stitch,
+  RemoteMongoClient,
+  AnonymousCredential
+} from 'mongodb-stitch-react-native-sdk'
+import {useSelector} from 'react-redux'
 
 import styles from '../styles'
+import {getGuestbook} from '../store'
 
 const About = props => {
   const [message, setMessage] = useState('')
   const [name, setName] = useState('')
+  let [theDocs, setTheDocs] = useState([])
   let _confettiView = null
+  const APP_ID = 'fsa-stackathon-ajmxk'
 
-  const handleSubmit = () => {
+  const getGuestBook = async () => {
+    const client = Stitch.hasAppClient(APP_ID)
+      ? await Stitch.getAppClient(APP_ID)
+      : await Stitch.initializeAppClient(APP_ID)
+
+    const db = await client
+      .getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas')
+      .db('facestuff')
+
+    client.auth
+      .loginWithCredential(new AnonymousCredential())
+      .then(() =>
+        db
+          .collection('guestbook')
+          .find()
+          .asArray()
+      )
+      .then(docs => {
+        console.log('found docs!', docs)
+        setTheDocs(docs)
+      })
+      .catch(err => {
+        console.error('mongo error :(', err)
+      })
+  }
+
+  useEffect(() => {
+    getGuestBook()
+  }, [])
+
+  const handleSubmit = async () => {
     Keyboard.dismiss()
     if (_confettiView) {
       _confettiView.startConfetti()
     }
-    const stitchAppClient = Stitch.defaultAppClient
-    const mongoClient = stitchAppClient.getServiceClient(
-      RemoteMongoClient.factory,
-      'mongodb-atlas'
-    )
-    const db = mongoClient.db('facestuff')
-    const entry = db.collection('guestbook')
-    if (message !== '') {
-      entry
-        .insertOne({
-          Name: name,
-          Message: message,
-          CreatedOn: new Date()
-        })
-        .then(() => {
-          setMessage('')
-          setName('')
-        })
-        .catch(err => {
-          console.warn(err)
-        })
-    }
+
+    const client = Stitch.hasAppClient(APP_ID)
+      ? await Stitch.getAppClient(APP_ID)
+      : await Stitch.initializeAppClient(APP_ID)
+
+    const db = await client
+      .getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas')
+      .db('facestuff')
+
+    client.auth
+      .loginWithCredential(new AnonymousCredential())
+      .then(user => {
+        console.log('stuff', message, name)
+        db.collection('guestbook').insertOne({Name: name, Message: message})
+      })
+      .then(() =>
+        db
+          .collection('guestbook')
+          .find()
+          .asArray()
+      )
+      .then(docs => {
+        console.log('found docs!', docs)
+        setTheDocs(docs)
+      })
+      .catch(err => {
+        console.error('mongo error :(', err)
+      })
   }
+
+  // i made this to delete all the useless gibberish I had added to the db until i got it working
+
+  // const deleteAll = async () => {
+  //   const client = Stitch.hasAppClient(APP_ID)
+  //     ? await Stitch.getAppClient(APP_ID)
+  //     : await Stitch.initializeAppClient(APP_ID)
+
+  //   const db = await client
+  //     .getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas')
+  //     .db('facestuff')
+
+  //   client.auth
+  //     .loginWithCredential(new AnonymousCredential())
+  //     .then(user => {
+  //       console.log('stuff', message, name)
+  //       db.collection('guestbook').deleteMany()
+  //     })
+  //     .then(() =>
+  //       db
+  //         .collection('guestbook')
+  //         .find()
+  //         .asArray()
+  //     )
+  //     .then(docs => {
+  //       console.log('found docs!', docs)
+  //       setTheDocs(docs)
+  //     })
+  //     .catch(err => {
+  //       console.error('mongo error :(', err)
+  //     })
+  // }
 
   return (
     <Container>
@@ -93,6 +171,24 @@ const About = props => {
           <Button onPress={() => handleSubmit()}>
             <Text>Submit</Text>
           </Button>
+          <Content padder />
+          <Text>Guestbook entries: {theDocs.length}</Text>
+          <Content>
+            {theDocs.length ? (
+              theDocs.map(doc => {
+                return (
+                  <Text key={doc.id}>
+                    "{doc.Message}" - {doc.Name}
+                  </Text>
+                )
+              })
+            ) : (
+              <Text></Text>
+            )}
+            <Button onPress={() => deleteAll()}>
+              <Text>DELETE</Text>
+            </Button>
+          </Content>
           <Content padder />
           <Text styles={styles.homeText}>
             Made in November 2019 with React Native and Expo by @jsmney as a
