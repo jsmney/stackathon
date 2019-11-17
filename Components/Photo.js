@@ -117,10 +117,19 @@ const Photo = props => {
     return detected
   }
 
+  //toast
+  const showToast = () => {
+    Toast.show({
+      text: 'modal toast',
+      position: 'top',
+      duration: 3000
+    })
+  }
+
   return (
     <Container>
       <Header style={styles.headerContainer}>
-        <Text style={styles.header}>Photos</Text>
+        <Text style={styles.header}>PHOTOS</Text>
       </Header>
       <Content>
         <ScrollView style={styles.gallery}>
@@ -265,7 +274,7 @@ const Photo = props => {
                   opacity: 0.4
                 }}
               /> */}
-                  <Text>{hasSaved && 'success!'}</Text>
+                  <Text style={styles.msg}>{hasSaved && 'saved!'}</Text>
                 </View>
                 <Footer>
                   <FooterTab>
@@ -353,9 +362,12 @@ const Photo = props => {
                           format: 'jpg',
                           quality: 0.9
                         }).then(
-                          uri => CameraRoll.saveToCameraRoll(uri),
+                          uri => {
+                            CameraRoll.saveToCameraRoll(uri)
+                          },
                           error => console.error('oops', error)
                         )
+
                         setHasSaved(true)
                       }}
                     >
@@ -365,6 +377,7 @@ const Photo = props => {
                     <Button
                       onPress={async () => {
                         await CameraRoll.saveToCameraRoll(activeImage.uri)
+
                         setHasSaved(true)
                       }}
                     >

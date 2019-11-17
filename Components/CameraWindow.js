@@ -13,7 +13,8 @@ import {
   Left,
   Body,
   Right,
-  Title
+  Title,
+  Toast
 } from 'native-base'
 import * as Permissions from 'expo-permissions'
 import {Camera} from 'expo-camera'
@@ -113,24 +114,22 @@ const CameraWindow = props => {
             }}
           ></View>
         </Camera>
-
-        <View
-          style={{
-            height: 60,
-            padding: 15,
-            backgroundColor: 'transparent'
-          }}
-        >
-          {captures.length > 0 && (
-            <Text>Success! {captures.length} photo(s) taken</Text>
-          )}
-        </View>
         <Footer>
           <FooterTab>
             <Button onPress={() => props.history.push('/')}>
               <Icon ios="ios-home" android="md-home" />
             </Button>
-            <Button onPress={handleCapture}>
+            <Button
+              onPress={() => {
+                handleCapture()
+                Toast.show({
+                  text: 'Photo captured!',
+                  buttonText: 'Okay',
+                  position: "top",
+                  type: "success"
+                })
+              }}
+            >
               <Icon name="camera" />
             </Button>
             <Button onPress={() => props.history.push('/photo')}>
