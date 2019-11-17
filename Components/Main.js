@@ -60,7 +60,15 @@ const Main = props => {
           <Text styles={styles.homeText}>
             <Icon type="Foundation" name="burst" /> Have fun!
           </Text>
-                </Content>
+          <Text styles={styles.homeText}>
+            <Icon
+              ios="ios-heart"
+              android="md-heart"
+              onPress={() => props.history.push('/about')}
+            />{' '}
+            Leave us a message in our guestbook! :)
+          </Text>
+        </Content>
       </Content>
       <Footer>
         <FooterTab>

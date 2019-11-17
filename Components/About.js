@@ -94,6 +94,8 @@ const About = props => {
       .then(docs => {
         console.log('found docs!', docs)
         setTheDocs(docs)
+        setName('')
+        setMessage('')
       })
       .catch(err => {
         console.error('mongo error :(', err)
@@ -177,17 +179,20 @@ const About = props => {
             {theDocs.length ? (
               theDocs.map(doc => {
                 return (
-                  <Text key={doc.id}>
-                    "{doc.Message}" - {doc.Name}
-                  </Text>
+                  <React.Fragment key={doc.id}>
+                    <Text key={doc.id}>
+                      "{doc.Message}" - {doc.Name}
+                    </Text>
+                    <Content padder />
+                  </React.Fragment>
                 )
               })
             ) : (
               <Text></Text>
             )}
-            <Button onPress={() => deleteAll()}>
+            {/* <Button onPress={() => deleteAll()}>
               <Text>DELETE</Text>
-            </Button>
+            </Button> */}
           </Content>
           <Content padder />
           <Text styles={styles.homeText}>
