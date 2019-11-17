@@ -126,7 +126,7 @@ const Photo = props => {
   return (
     <Container>
       <Header style={styles.headerContainer}>
-        <Text style={styles.header}>Photos</Text>
+        <Text style={styles.header}>PHOTOS</Text>
       </Header>
       <Content>
         <ScrollView style={styles.gallery}>

@@ -6,7 +6,7 @@ import {Ionicons} from '@expo/vector-icons'
 import {NativeRouter, Route} from 'react-router-native'
 import {Provider} from 'react-redux'
 import {Root} from 'native-base'
-import {Main, CameraWindow, Photo} from './Components'
+import {Main, CameraWindow, Photo, About} from './Components'
 import store from './store'
 
 const App = () => {
@@ -27,6 +27,7 @@ const App = () => {
         <NativeRouter>
           <Route path="/camera" component={CameraWindow} />
           <Route path="/photo" component={Photo} />
+          <Route path="/About" component={About} />
           <Route exact path="/" component={Main} />
         </NativeRouter>
       </Provider>
