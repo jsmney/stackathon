@@ -179,7 +179,7 @@ const About = props => {
             {theDocs.length ? (
               theDocs.map(doc => {
                 return (
-                  <React.Fragment key={doc.id}>
+                  <React.Fragment key={doc._id}>
                     <Text key={doc.id}>
                       "{doc.Message}" - {doc.Name}
                     </Text>
